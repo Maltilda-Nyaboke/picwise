@@ -4,10 +4,12 @@
 
 <h3>Login into your account</h3>
 
-<form method="POST">
+<form method="POST" class="form-group">
     {% csrf_token %}
     {{form|crispy}}
-    <button type="submit" class="btn btn-success">Login</button>
+
     <p> Don\'t have an account? <a href="{% url 'register' %}"> Sign Up</a></p>
+
+    <button type="submit" class="btn btn-success">Login</button>
 </form>
 {% endblock %}
