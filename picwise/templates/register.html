@@ -4,8 +4,9 @@
 <div class="container">
     <h2 text-align="center">Create an account</h2>
     <form method="POST">
+        {% csrf_token %}
         {{form}}
-        <button type="button" class="btn btn-success">Register</button>
+    <button type="submit" class="btn btn-success">Register</button>
     </form>
 </div>
 
