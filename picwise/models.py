@@ -23,9 +23,10 @@ class Image(models.Model):
 
 
 class Profile(models.Model):
-    profile_photo=models.ImageField(upload_to = 'pictures/')
+    profile_photo=models.ImageField(upload_to = 'media')
     bio=models.TextField()
-    first_name=models.CharField(max_length=20,null=True)
-    last_name=models.CharField(max_length=20,null=True)
-    user_name=models.CharField(max_length=20,null=True)
-    user=models.OneToOneField(User,on_delete=models.CASCADE)        
+    username=models.CharField(max_length=20,null=True)
+    user=models.OneToOneField(User,on_delete=models.CASCADE)   
+
+class Comment(models.Model):
+    comment = models.TextField()    
