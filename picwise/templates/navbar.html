@@ -1,0 +1,64 @@
+<nav class="navbar navbar-expand-md navbar ">
+    <div class="container">
+    <div style="margin-left: 5%;">
+    <a href="{% url 'home' %}" class="navbar-brand mr-3">
+      <img src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png" alt="">
+    </a>
+    </div>
+  
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation" style="margin-left: 65%;">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="navbar-nav" style="margin-left: 30%;">
+      <form class="navbar-form" role="search" method="" action="{% url 'search_results' %}" style="margin-right:150px;" >
+        {% csrf_token %}
+        <div class="input-group">
+        <input type="text" class="form-control" placeholder="SearchByProfile" name="name">
+        <div class="input-group-btn">
+        <button class="btn btn-dark" style="margin-left: 5px;" type="submit">Search</button>
+        </div>
+        </div>
+        </form>
+      
+    </div>
+  
+    <div class="collapse navbar-collapse" id="navbarToggle" style="margin-left: 2px;">
+     
+      <div class="navbar-nav mb-3 ">
+       
+  {% if user.is_authenticated %}
+    <ul>
+    <li class="dropdown"style="list-style: none";>
+    <a href="#" class="dropdown-toggle btn btn-default" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-user"aria-hidden="true"></i>
+    <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu" role="menu">
+    <li>
+    <a href="">Home</a>
+    </li>
+    <li>
+        <a href="/accounts/password/change">Change Password</a>
+        </li>
+        <li>
+        <a href="/user/{{request.user.id}}">Profile</a>
+        </li>
+        <li>
+        <a href="/logout">Logout</a>
+        </li>
+        </ul>
+        </li>
+        </ul>
+      {% else %}
+        <li>
+        <a class='btn btn-default' href="/accounts/login">Login</a>
+        </li>
+      {% endif %}
+            
+              
+              
+         
+          </div>
+        </div>
+      </div>
+      </nav>
