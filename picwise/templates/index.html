@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
+{% if user_is_authenticated %}
 {% block content %}
 Heloo nothing
 
 {% endblock %}
+{% else %}
+        <p><a href="/login">Login here</a></p>
+{% endif %}
