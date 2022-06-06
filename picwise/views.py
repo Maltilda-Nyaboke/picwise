@@ -19,4 +19,17 @@ def register(request):
     return render(request,'register.html',{'form':form}) 
 
 def login_user(request):
-    return render(request,'login.html')       
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+        # Redirect to a success page.
+        
+        else:
+
+        # Return an 'invalid login' error message.
+            pass
+    else: 
+        return render(request,'login.html')       
