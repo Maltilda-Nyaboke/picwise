@@ -35,4 +35,6 @@ def login_user(request):
         return render(request,'login.html')    
 
 def add_post(request, *args, **kwargs):
+    if request.method == 'POST':
+        form =(request)
     return render()
