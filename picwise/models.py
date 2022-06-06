@@ -71,32 +71,32 @@ class Likes(models.Model):
     def delete_like(self):
         self.delete()
 
-class Follow(models.Model):
-    follower = models.ForeignKey(User,on_delete=models.CASCADE)
-    following = models.ForeignKey(User,on_delete=models.CASCADE)
+# class Follow(models.Model):
+#     follower = models.ForeignKey(User,on_delete=models.CASCADE)
+#     following = models.ForeignKey(User,on_delete=models.CASCADE)
 
-    def __str__(self):
-        return self.follower
+#     def __str__(self):
+#         return self.follower
 
-    def save_follow(self):
-        self.save()
+#     def save_follow(self):
+#         self.save()
 
-    def delete_follow(self):
-        self.delete()
+#     def delete_follow(self):
+#         self.delete()
 
-class Stream(models.Model):
-    following = models.ForeignKey(User,on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    image = models.ForeignKey(Image, on_delete=models.CASCADE,null=True)
-    date = models.DateTimeField()
+# class Stream(models.Model):
+#     following = models.ForeignKey(User,on_delete=models.CASCADE)
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+#     image = models.ForeignKey(Image, on_delete=models.CASCADE,null=True)
+#     date = models.DateTimeField()
   
-    def __str__(self):
-            return self.user
+#     def __str__(self):
+#             return self.user
 
-    def save_stream(self):
-            self.save()
+#     def save_stream(self):
+#             self.save()
 
-    def delete_stream(self):
-            self.delete()
+#     def delete_stream(self):
+#             self.delete()
 
     
