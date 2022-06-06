@@ -1,14 +1,47 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="container">
-    <img src="https://images.unsplash.com/photo-1654519381509-b362974aea6e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1176&q=80" class="img-thumbnail" alt="..." style="border-radius: 50%; height: 150px;width:150px;">
-
     <div class="row">
-    <div class="col-md-3"></div>
-    <div class="col-md-3">following</div>
-    <div class="col-md-3">followers</div>
-    <div class="col-md-3">likes</div>
-</div>
+        <div class="col-md-2">
+            <div class="row">
+            <img src="https://images.unsplash.com/photo-1654519381509-b362974aea6e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1176&q=80" class="img-thumbnail" alt="..." style="border-radius: 50%; height: 150px;width:150px;">
+            <h3 class="">{{user.username}}</h3>
+            <p>{{user.bio}}</p>
+            <button class="btn btn-primary">Follow</button>
+        </div>
+        </div>
+        <div class="col-md-10">
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-3">
+                    <p>Following</p>
+                    <span><strong>3k</strong></span>
+
+                </div>
+                <div class="col-md-3">followers</div>
+                <div class="col-md-3">likes</div>
+            </div>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat id quis vitae, qui, molestiae temporibus ut rerum harum ullam quisquam numquam maxime tempora. Aliquid nam vel eum harum optio reprehenderit!</p>
+            <button class="btn btn-primary">Edit profile</button>
+
+            <div class="row">
+                <div class="col-md-3">
+                    <img src="https://images.unsplash.com/photo-1648066380710-2d48d11ae0e6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80" alt=""style="width:200px;height:200px;margin:20px;">
+                </div>
+                <div class="col-md-3">
+                    <img src="https://images.unsplash.com/photo-1648066380710-2d48d11ae0e6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80" alt=""style="width:200px;height:200px;margin:20px;">
+                </div>
+                <div class="col-md-3">
+                    <img src="https://images.unsplash.com/photo-1648066380710-2d48d11ae0e6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80" alt=""style="width:200px;height:200px;margin:20px;">
+                </div>
+                <div class="col-md-3">
+                    <img src="https://images.unsplash.com/photo-1648066380710-2d48d11ae0e6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80" alt=""style="width:200px;height:200px;margin:20px;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
 </div>
 
 
