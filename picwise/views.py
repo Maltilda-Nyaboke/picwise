@@ -28,7 +28,7 @@ def login_user(request):
         # Redirect to a success page.
             return redirect(request,'index.html')
         else:
-            pass
+            return redirect(request,'login.html')
 
 # Return an 'invalid login' error message.
     else: 
