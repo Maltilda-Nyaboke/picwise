@@ -6,6 +6,8 @@ from .forms import RegisterForm
 
 def home(request):
     return render(request,'index.html')
+def profile(request):
+    return render(request,'profile.html')    
 
 def register(request):
     if request.method == 'POST':
