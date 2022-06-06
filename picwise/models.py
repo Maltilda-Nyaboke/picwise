@@ -72,4 +72,31 @@ class Likes(models.Model):
         self.delete()
 
 class Follow(models.Model):
-    followers = models.ManyToManyField
+    follower = models.ForeignKey(User,on_delete=models.CASCADE)
+    following = models.ForeignKey(User,on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.follower
+
+    def save_follow(self):
+        self.save()
+
+    def delete_follow(self):
+        self.delete()
+
+class Stream(models.Model):
+    following = models.ForeignKey(User,on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    image = models.ForeignKey(Image, on_delete=models.CASCADE,null=True)
+    date = models.DateTimeField()
+  
+    def __str__(self):
+            return self.user
+
+    def save_stream(self):
+            self.save()
+
+    def delete_stream(self):
+            self.delete()
+
+    

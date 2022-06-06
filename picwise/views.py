@@ -32,4 +32,7 @@ def login_user(request):
 
 # Return an 'invalid login' error message.
     else: 
-        return render(request,'login.html')       
+        return render(request,'login.html')    
+
+def add_post(request, *args, **kwargs):
+    return render()
