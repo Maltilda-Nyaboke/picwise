@@ -17,7 +17,7 @@ class Image(models.Model):
     name = models.CharField(max_length=30)
     caption = models.TextField()
     posted = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(on_delete = models.CASCADE)
+    user = models.ForeignKey(User,on_delete = models.CASCADE)
     likes= models.IntegerField(default=0)
 
     def __str__(self):
@@ -60,7 +60,6 @@ class Comment(models.Model):
 
 
 class Likes(models.Model):
-    image = models.ForeignKey(Image, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
