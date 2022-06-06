@@ -1,5 +1,7 @@
+from uuid import uuid4
 from django.db import models
 from django import forms
+import uuid
 import datetime as dt
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save,post_delete
@@ -7,12 +9,16 @@ from django.utils.text import slugify
 
 # from cloudinary.models import CloudinaryField
 
-
 # Create your models here.
+
+
 class Image(models.Model):
+    id = models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False)
     name = models.CharField(max_length=30)
     caption = models.TextField()
-    user = models.ForeignKey
+    posted = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(on_delete = models.CASCADE)
+    likes= models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
@@ -65,3 +71,6 @@ class Likes(models.Model):
 
     def delete_like(self):
         self.delete()
+
+class Follow(models.Model):
+    followers = models.ManyToManyField
