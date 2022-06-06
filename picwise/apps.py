@@ -2,5 +2,5 @@ from django.apps import AppConfig
 
 
 class PicwiseConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'picwise'
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "picwise"
