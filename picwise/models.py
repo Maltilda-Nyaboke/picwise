@@ -24,8 +24,8 @@ class Image(models.Model):
 
 class Profile(models.Model):
     profile_photo = models.ImageField(upload_to="media")
-    bio = models.TextField()
     username = models.CharField(max_length=20, null=True)
+    bio = models.TextField()
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def __str__(self):
