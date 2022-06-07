@@ -84,18 +84,6 @@ class Comment(models.Model):
         self.delete()
 
 
-# class Likes(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-
-#     def __str__(self):
-#         return self.user
-
-#     def save_like(self):
-#         self.save()
-
-#     def delete_like(self):
-#         self.delete()
-
 class Follow(models.Model):
     follower = models.ForeignKey(User,on_delete=models.CASCADE,related_name='follower',null=True)
     following = models.ForeignKey(User,on_delete=models.CASCADE,related_name='following',null=True)

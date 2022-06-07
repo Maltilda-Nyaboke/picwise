@@ -7,13 +7,13 @@ import uuid
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('picwise', '0008_alter_image_id'),
+        ('picwise', '0006_alter_image_id'),
     ]
 
     operations = [
         migrations.AlterField(
             model_name='image',
             name='id',
-            field=models.UUIDField(default=uuid.UUID('1693db47-6ff6-4796-978f-f7af1cfdbc11'), editable=False, primary_key=True, serialize=False),
+            field=models.UUIDField(default=uuid.UUID('610011db-53c9-4468-8bfb-2c814f41b616'), editable=False, primary_key=True, serialize=False),
         ),
     ]
