@@ -7,23 +7,11 @@ from django.template import loader
 from .forms import NewsLetterForm
 from django.http import HttpResponse, Http404,HttpResponseRedirect
 from .emails import send_welcome_email
-from picwise.models import Image,Stream,NewsLetterRecipients
+from picwise.models import Image,NewsLetterRecipients
 
 # Create your views here.
-@login_required
+#@login_required
 def home(request):
-    user = request.user
-    images = Stream.objects.filter(user=user)
-    group_ids = []
-    for image in images:
-        group_ids.append(image.image_id)
-    image_items = Image.objects.filter(id__in=group_ids).all().order_by('-posted')
-    template =loader.get_template('index.html')
-    context={
-        image_items: image_items,
-    } 
-    return HttpResponse(template.render(context,request))   
-
     return render(request,'index.html')
 def profile(request):
     return render(request,'profile.html')    

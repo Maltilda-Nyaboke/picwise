@@ -13,12 +13,12 @@ class Image(models.Model):
 
 
     def __str__(self):
-        return self.posted
+        return self.name
 
     class Meta:
         ordering = ['-posted']
 
-class Likes(models.Model):
+class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_like')
     image = models.ForeignKey(Image, on_delete=models.CASCADE, related_name='post_like')
 
