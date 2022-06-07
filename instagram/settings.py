@@ -81,7 +81,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "picwise",
         "USER": "moringa",
-        "PASSWORD": "Access",
+        "PASSWORD":"Access",
     }
 }
 

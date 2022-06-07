@@ -71,7 +71,3 @@ def news_today(request):
             form = NewsLetterForm()
     return render(request, 'all-news/today-news.html', {"letterForm":form})        
 
-def add_post(request, *args, **kwargs):
-    if request.method == 'POST':
-        form =(request)
-    return render()
