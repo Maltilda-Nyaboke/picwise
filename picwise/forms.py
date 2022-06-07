@@ -1,5 +1,5 @@
 from django.contrib.auth import login, authenticate
-from .models import  Image, Profile
+from .models import  Image, Profile,Comment
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -26,4 +26,9 @@ class UploadImageForm(ModelForm):
     class Meta():
         model=Image
         fields=['image', 'name', 'caption']
+
+class CommentForm(ModelForm):
+    class Meta:
+        model=Comment
+        fields=['content']        
         

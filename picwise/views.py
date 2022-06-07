@@ -1,13 +1,13 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import get_object_or_404, render,redirect
 from django.contrib.auth import login,authenticate,logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from .forms import RegisterForm
 from django.template import loader
-from .forms import NewsLetterForm,UpdateProfileForm,UploadImageForm
+from .forms import NewsLetterForm,UpdateProfileForm,UploadImageForm,CommentForm
 from django.http import HttpResponse, Http404,HttpResponseRedirect
 from .emails import send_welcome_email
-from picwise.models import Image,NewsLetterRecipients,Profile,Follow
+from picwise.models import Image,NewsLetterRecipients,Profile,Follow,Comment
 
 # Create your views here.
 #@login_required
@@ -62,6 +62,26 @@ def search_results(request):
     return render(request, 'search.html', {"users": users, "images": images})
   else:
     return render(request, 'search.html')
+def add_comment(request,image_id):
+    images=Image.objects.get(id=image_id)
+    comments=Comment.objects.filter(images=images).all()
+    current_user=request.user
+    if request.method =='POST':
+        form = CommentForm(request.POST)
+        
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = current_user
+            
+            comment.image = images
+            comment.save()
+        return redirect('home')
+    else:
+        
+        form = CommentForm()
+    return render(request, 'index.html', {'images': images, 'form':form, 'comments':comments})
+    
+
 def profile_update(request,id):
     profile = Profile.objects.get(id=id)
     form = UpdateProfileForm(request.POST, instance=profile)
