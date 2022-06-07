@@ -1,13 +1,9 @@
-from uuid import uuid4
 from django.db import models
-from django import forms
 import uuid
-import datetime as dt
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save,post_delete
+from django.db.models.signals import post_save
 from django.utils.text import slugify
 from django.urls import reverse
-# from cloudinary.models import CloudinaryField
 
 # Create your models here.
 
@@ -15,20 +11,20 @@ def user_directory_path(instance,filename):
     return 'user_{0}/{1}'.format(instance.user.id, filename)
 
 class Tag (models.Model):
-    title = models.CharField(max_length=255,verbose_name='Tag')
+    title = models.CharField(max_length=75,verbose_name='Tag')
     slug = models.SlugField(null=False,unique = True)
 
     class Meta:
         verbose_name_plural = 'Tags'
     def get_absolute_url(self):  
-        return reverse('tags', args=(self.slug))  
+        return reverse('tags', args=[self.slug])  
 
     def __str__(self):
-        return self.slug
+        return self.title
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.slug)
+            self.slug = slugify(self.title)
             return super().save(*args, **kwargs)
 
 
@@ -46,13 +42,9 @@ class Image(models.Model):
         return reverse('imagedetails', args=[str(self.id)])
 
     def __str__(self):
-        return self.name
+        return self.posted
 
-    def save_image(self):
-        self.save()
-
-    def delete_image(self):
-        self.delete()
+    
 
 
 class Profile(models.Model):
@@ -64,38 +56,20 @@ class Profile(models.Model):
     def __str__(self):
         return self.bio
 
-    def save_profile(self):
-        self.save()
-
-    def delete_profile(self):
-        self.delete()
-
+    
 
 class Comment(models.Model):
     comment = models.TextField()
 
-    def __str__(self):
-        return self.comment
+    
 
-    def save_comment(self):
-        self.save()
-
-    def delete_comment(self):
-        self.delete()
-
+    
 
 class Follow(models.Model):
     follower = models.ForeignKey(User,on_delete=models.CASCADE,related_name='follower',null=True)
     following = models.ForeignKey(User,on_delete=models.CASCADE,related_name='following',null=True)
 
-    def __str__(self):
-        return self.follower
 
-    def save_follow(self):
-        self.save()
-
-    def delete_follow(self):
-        self.delete()
 
 class Stream(models.Model):
     following = models.ForeignKey(User,on_delete=models.CASCADE,related_name='stream_following')
@@ -108,18 +82,10 @@ class Stream(models.Model):
         user = image.user
         followers = Follow.objects.all().filter(following=user)
         for follower in followers:
-            stream= Stream(image=image,user=follower.follower,date=image.posted,following = user)
+            stream= Stream(image=image,user=follower.follower,date=image.posted,following=user)
             stream.save()
   
-    def __str__(self):
-            return self.user
-
-    def save_stream(self):
-            self.save()
-
-    def delete_stream(self):
-            self.delete()
-
-post_save.connect(Stream.add_image,sender= Image)            
+    
+post_save.connect(Stream.add_image,sender=Image)            
 
     

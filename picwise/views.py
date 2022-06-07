@@ -1,10 +1,16 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import login,authenticate,logout
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
 from .forms import RegisterForm
-# Create your views here.
+from picwise.models import Image,Stream
 
+# Create your views here.
+@login_required
 def home(request):
+    user = request.user
+    images = Stream.objects.filter(user=user)
+    
     return render(request,'index.html')
 def profile(request):
     return render(request,'profile.html')    
