@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from .forms import RegisterForm
 from django.template import loader
-from .forms import NewsLetterForm,EditProfileForm
+from .forms import NewsLetterForm,UpdateProfileForm,UploadImageForm
 from django.http import HttpResponse, Http404,HttpResponseRedirect
 from .emails import send_welcome_email
 from picwise.models import Image,NewsLetterRecipients,Profile,Follow
@@ -12,11 +12,19 @@ from picwise.models import Image,NewsLetterRecipients,Profile,Follow
 # Create your views here.
 #@login_required
 def home(request):
-    posts = Image.objects.all()
-    return render(request,'index.html',{'posts':posts})
-def profile(request,id):
+    images = Image.objects.all()
+    return render(request,'index.html',{'images':images})
+def profile(request):
+    user = request.user
+    profile = Profile.objects.all()
+    following_count = Follow.objects.filter(follower=user).count()
+    followers_count = Follow.objects.filter(following=user).count()
+    images = Image.objects.all()
+    context = {'profile': profile, 'images': images, 'following_count':following_count,'followers_count':followers_count,}
+
     
-    return render(request,'profile.html')    
+
+    return render(request,'profile.html',context)    
 
 def register(request):
     if request.method == 'POST':
@@ -45,16 +53,6 @@ def login_user(request):
     else: 
         return render(request,'login.html')  
 
-def update_profile(request, pk):
-    profile = Profile.objects.get(id=pk)
-    form = EditProfileForm(request.POST, instance=profile)
-    if request.method == 'POST':
-        if form.is_valid():
-            form.save()
-            return redirect('profile')
-    context = {'form': form}
-    return render(request, 'update.html', context)
-
 def search_results(request):
   if 'name' in request.GET and request.GET["name"]:
     name = request.GET.get('name')
@@ -64,6 +62,33 @@ def search_results(request):
     return render(request, 'search.html', {"users": users, "images": images})
   else:
     return render(request, 'search.html')
+def profile_update(request,id):
+    profile = Profile.objects.get(id=id)
+    form = UpdateProfileForm(request.POST, instance=profile)
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+    context = {'form': form}
+    return render(request, 'profile_update.html',context) 
+
+def upload_image(request):
+    form = UploadImageForm()
+    user = request.user
+    owner = Profile.objects.get(user=user)
+    if request.method == 'POST':
+        form = UploadImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            image = form.cleaned_data['image']
+            name = form.cleaned_data['name']
+            caption = form.cleaned_data['caption']
+            upload = Image(image=image, name=name,
+                           caption=caption, user=user)
+            upload.save()
+            return redirect('home')
+
+    context = {'form': form}
+    return render(request, 'gram_app/upload.html', context)
 def news_today(request):
     if request.method == 'POST':
         form = NewsLetterForm(request.POST)

@@ -17,12 +17,13 @@ class NewsLetterForm(forms.Form):
     your_name = forms.CharField(label='First Name',max_length=30)
     email = forms.EmailField(label='Email')
 
-class EditProfileForm(ModelForm):
+class UpdateProfileForm(ModelForm):
     class Meta():
         model=Profile
         fields=['profile_photo', 'bio', 'username']
-        widgets = {
-            'profile_photo': forms.FileInput(attrs={'class':'form-control mb-3'}),
-            'bio': forms.TextInput(attrs={'class':'form-control mb-3'}),
-            'username': forms.TextInput(attrs={'class':'form-control mb-3'}),
-        }    
+        
+class UploadImageForm(ModelForm):
+    class Meta():
+        model=Image
+        fields=['image', 'name', 'caption']
+        
