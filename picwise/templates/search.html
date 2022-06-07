@@ -1,0 +1,47 @@
+{%extends 'base.html'%}
+{% block content %}
+<div class="container">
+
+
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 search">
+
+
+            {% if users %}
+            <h6 class="text-center text-monospace">
+                Profiles found
+            </h6>
+            {% for user in users %}
+            <div class="flex">
+                <div>
+
+                    <img src="{{user.user.profile.profile_photo.url}}" class="rounded-circle border" alt="img"
+                        width="150" height="300">
+                    <p><b>{{user.profile.first_name}}<br>
+                            {{user.profile.last_name}}<br></b></p>
+                    <p>{{user.profile.bio}}<br></p>
+
+                </div>
+                <div>
+                    <p class="ml-2"><span class="font-weight-bold">{{user.user.username}}</span></p>
+                </div>
+            </div>
+            {% endfor %}
+            {%else%}
+            <p> Profiles found</p>
+            {% endif %}
+
+            {% if images %}
+            <h6 class="text-center text-monospace">
+                posts found
+            </h6>
+
+            {% endif %}
+
+
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+</div>
+{% endblock %}

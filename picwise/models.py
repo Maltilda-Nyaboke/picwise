@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class Image(models.Model):
-    image = models.ImageField(upload_to='media/',null=True)
+    image = models.ImageField(upload_to='media',null=True)
     name = models.CharField(max_length=35)
     caption = models.TextField()
     posted = models.DateTimeField(auto_now_add=True)
@@ -42,7 +42,7 @@ class Profile(models.Model):
     profile_photo = models.ImageField(upload_to="media")
     username = models.CharField(max_length=20, null=True)
     bio = models.TextField()
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE,related_name='profile')
 
     def __str__(self):
         return self.bio
