@@ -62,9 +62,6 @@ class Profile(models.Model):
 
 class Comment(models.Model):
     comment = models.TextField()
-
-    
-
     
 
 class Follow(models.Model):
