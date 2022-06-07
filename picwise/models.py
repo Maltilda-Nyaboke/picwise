@@ -44,7 +44,9 @@ class Image(models.Model):
     def __str__(self):
         return self.posted
 
-    
+class NewsLetterRecipients(models.Model):
+    name = models.CharField(max_length = 30)
+    email = models.EmailField()   
 
 
 class Profile(models.Model):

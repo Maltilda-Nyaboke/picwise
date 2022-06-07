@@ -1,0 +1,2 @@
+Hello {{username}}
+Welcome to picwise I hope you enjoy our services to you

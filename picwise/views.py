@@ -3,14 +3,17 @@ from django.contrib.auth import login,authenticate,logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from .forms import RegisterForm
-from picwise.models import Image,Stream
+from .forms import NewsLetterForm
+from django.http import HttpResponse, Http404,HttpResponseRedirect
+from .emails import send_welcome_email
+from picwise.models import Image,Stream,NewsLetterRecipients
 
 # Create your views here.
 @login_required
 def home(request):
     user = request.user
     images = Stream.objects.filter(user=user)
-    
+
     return render(request,'index.html')
 def profile(request):
     return render(request,'profile.html')    
@@ -41,6 +44,22 @@ def login_user(request):
 # Return an 'invalid login' error message.
     else: 
         return render(request,'login.html')    
+
+def news_today(request):
+    if request.method == 'POST':
+        form = NewsLetterForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['your_name']
+            email = form.cleaned_data['email']
+
+            recipient = NewsLetterRecipients(name = name,email =email)
+            recipient.save()
+            send_welcome_email(name,email)
+
+            HttpResponseRedirect('news_today')
+        else:
+            form = NewsLetterForm()
+    return render(request, 'all-news/today-news.html', {"letterForm":form})        
 
 def add_post(request, *args, **kwargs):
     if request.method == 'POST':
