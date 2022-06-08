@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
 <div class="container">
     <div class="row">
-        {% for profile in profiles %}
+    
         <div class="col-md-2">
             <div class="row">
-            <img src="{{profile.profile_photo.url}}" class="img-thumbnail" alt="..." style="border-radius: 50%; height: 150px;width:150px;">
-            <h3 class="">{{profile.username}}</h3>
-            <p>{{user.bio}}</p>
+            <img src="{{user.profile.profile_photo.url}}" class="img-thumbnail" alt="..." style="border-radius: 50%; height: 150px;width:150px;">
+            <h3 class="">{{user.username}}</h3>
+            <p>{{user.profile.bio}}</p>
             <button class="btn btn-primary">Follow</button>
         </div>
         </div>
@@ -22,7 +23,6 @@
                 <div class="col-md-3">followers</div>
                 <div class="col-md-3">likes</div>
             </div>
-            <p>{{profile.bio}}</p>
            <a href="{% url 'profile_update' %}"><button class="btn btn-primary">Edit profile</button></a> 
 
             <div class="row">
@@ -32,7 +32,6 @@
                 
             </div>
         </div>
-    {% endfor %}
     </div>
 
     

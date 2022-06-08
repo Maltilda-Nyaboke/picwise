@@ -20,7 +20,8 @@ class NewsLetterForm(forms.Form):
 class UpdateProfileForm(ModelForm):
     class Meta():
         model=Profile
-        fields=['profile_photo', 'bio', 'username']
+        fields=['profile_photo', 'username','bio']
+        exclude=['user']
         
 class UploadImageForm(ModelForm):
     class Meta():

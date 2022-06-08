@@ -39,7 +39,7 @@ class NewsLetterRecipients(models.Model):
 
 
 class Profile(models.Model):
-    profile_photo = models.ImageField(upload_to="media")
+    profile_photo = models.ImageField(upload_to='media')
     username = models.CharField(max_length=20, null=True)
     bio = models.TextField()
     user = models.OneToOneField(User, on_delete=models.CASCADE,related_name='profile')

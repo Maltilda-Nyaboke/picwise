@@ -7,7 +7,7 @@ from django.template import loader
 from .forms import NewsLetterForm,UpdateProfileForm,UploadImageForm,CommentForm
 from django.http import HttpResponse, Http404,HttpResponseRedirect
 from .emails import send_welcome_email
-from picwise.models import Image,NewsLetterRecipients,Profile,Follow,Comment,Like
+from picwise.models import *
 
 # Create your views here.
 #@login_required
@@ -16,15 +16,14 @@ def home(request):
     return render(request,'index.html',{'images':images})
 def profile(request):
     user = request.user
-    profile = Profile.objects.all()
-    following_count = Follow.objects.filter(follower=user).count()
-    followers_count = Follow.objects.filter(following=user).count()
-    images = Image.objects.all()
-    context = {'profile': profile, 'images': images, 'following_count':following_count,'followers_count':followers_count,}
-
-    
-
-    return render(request,'profile.html',context)    
+    profile = User.objects.all()
+    profile_image = Profile.objects.filter(user=request.user.pk)
+    print(profile_image,'yy')
+    # following_count = Follow.objects.filter(follower=user).count()
+    # followers_count = Follow.objects.filter(following=user).count()
+    # images = Image.objects.all()
+    # context = {'profile': profile, 'images': images, 'following_count':following_count,'followers_count':followers_count,}
+    return render(request,'profile.html',{'profile':profile,'user':user})    
 
 def register(request):
     if request.method == 'POST':
@@ -63,39 +62,53 @@ def search_results(request):
   else:
     return render(request, 'search.html')
 def add_comment(request,image_id):
-    images=Image.objects.get(id=image_id)
-    comments=Comment.objects.filter(images=images).all()
-    current_user=request.user
-    if request.method =='POST':
-        form = CommentForm(request.POST)
-        
+    user = request.user
+    if request.method == 'POST':
+        image = Image.objects.filter(id = image_id).first()
+        form = CommentForm(request.POST, request.FILES)
         if form.is_valid():
-            comment = form.save(commit=False)
-            comment.user = current_user
-            
-            comment.image = images
+            comment= form.save(commit=False)
+            comment.user = user.profile
+            comment.image = image
             comment.save()
-        return redirect('home')
+            return redirect('home')
+
+    # image=Image.objects.get(id=id)
+    # comments=Comment.objects.filter(image=id).all()
+    # user=request.user
+    # if request.method =='POST':
+    #     form = CommentForm(request.POST)
+        
+    #     if form.is_valid():
+    #         comment = form.save(commit=False)
+    #         comment.user = user
+            
+    #         # comment.image = image
+    #         comment.save()
+    #     return redirect('home')
     else:
         
         form = CommentForm()
-    return render(request, 'index.html', {'images': images, 'form':form, 'comments':comments})
+    return render(request, 'comment.html', { 'form':form, 'image_id':image_id})
     
 
-def profile_update(request,id):
-    profile = Profile.objects.get(id=id)
-    form = UpdateProfileForm(request.POST, instance=profile)
+def profile_update(request):
+    user = request.user
+    form = UpdateProfileForm(request.POST, request.FILES)
     if request.method == 'POST':
         if form.is_valid():
-            form.save()
+            image = form.save(commit=False)
+            image.user = user
+            image.save()
+
             return redirect('profile')
-    context = {'form': form}
-    return render(request, 'profile_update.html',context) 
+        else:
+            form= UpdateProfileForm()
+    return render(request, 'profile_update.html',{'form':form}) 
 
 def upload_image(request):
     form = UploadImageForm()
     user = request.user
-    owner = Profile.objects.get(user=user)
     if request.method == 'POST':
         form = UploadImageForm(request.POST, request.FILES)
         if form.is_valid():
