@@ -7,7 +7,7 @@ from django.template import loader
 from .forms import NewsLetterForm,UpdateProfileForm,UploadImageForm,CommentForm
 from django.http import HttpResponse, Http404,HttpResponseRedirect
 from .emails import send_welcome_email
-from picwise.models import Image,NewsLetterRecipients,Profile,Follow,Comment
+from picwise.models import Image,NewsLetterRecipients,Profile,Follow,Comment,Like
 
 # Create your views here.
 #@login_required
@@ -108,7 +108,7 @@ def upload_image(request):
             return redirect('home')
 
     context = {'form': form}
-    return render(request, 'gram_app/upload.html', context)
+    return render(request, 'upload.html', context)
 def news_today(request):
     if request.method == 'POST':
         form = NewsLetterForm(request.POST)
@@ -123,5 +123,16 @@ def news_today(request):
             HttpResponseRedirect('news_today')
         else:
             form = NewsLetterForm()
-    return render(request, 'all-news/today-news.html', {"letterForm":form})        
+    return render(request, 'all-news/today-news.html', {"letterForm":form})   
+def like_image(request, image_id):
+    image = get_object_or_404(Image,id = image_id)
+    like = Like.objects.filter(image = image ,user = request.user).first()
+    if like is None:
+        like = Like()
+        like.image = image
+        like.user = request.user
+        like.save()
+    else:
+        like.delete()
+    return redirect('home')         
 
