@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save, post_delete
+
 
 # Create your models here.
 
@@ -43,9 +45,14 @@ class Profile(models.Model):
     username = models.CharField(max_length=20, null=True)
     bio = models.TextField()
     user = models.OneToOneField(User, on_delete=models.CASCADE,related_name='profile')
-
+    
     def __str__(self):
         return self.bio
+
+    def save_profile(self):
+        self.save()    
+
+
 
     
 
@@ -57,8 +64,6 @@ class Comment(models.Model):
     
     def __str__(self):
             return self.comment
-    
-
 class Follow(models.Model):
     follower = models.ForeignKey(User,on_delete=models.CASCADE,related_name='follower',null=True)
     following = models.ForeignKey(User,on_delete=models.CASCADE,related_name='following',null=True)

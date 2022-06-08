@@ -1,16 +1,17 @@
 from django.shortcuts import get_object_or_404, render,redirect
 from django.contrib.auth import login,authenticate,logout
+from django.urls import reverse
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from .forms import RegisterForm
 from django.template import loader
 from .forms import NewsLetterForm,UpdateProfileForm,UploadImageForm,CommentForm
 from django.http import HttpResponse, Http404,HttpResponseRedirect
-from .emails import send_welcome_email
+from .email import send_welcome_email
 from picwise.models import *
 
 # Create your views here.
-#@login_required
+@login_required
 def home(request):
     images = Image.objects.all()
     return render(request,'index.html',{'images':images})
@@ -18,7 +19,6 @@ def profile(request):
     user = request.user
     profile = User.objects.all()
     profile_image = Profile.objects.filter(user=request.user.pk)
-    print(profile_image,'yy')
     # following_count = Follow.objects.filter(follower=user).count()
     # followers_count = Follow.objects.filter(following=user).count()
     # images = Image.objects.all()
@@ -30,8 +30,14 @@ def register(request):
         form =  RegisterForm(request.POST)
 
         if form.is_valid():
+            name = form.cleaned_data['username']
+            email = form.cleaned_data['email']
+
+            recipient = NewsLetterRecipients(name = name,email =email)
+            recipient.save()
+            send_welcome_email(name,email)
             form.save()
-        return redirect(request,'index.html')
+            return HttpResponseRedirect(reverse('home'))
     else:    
         form = RegisterForm()
     return render(request,'register.html',{'form':form}) 
@@ -61,6 +67,8 @@ def search_results(request):
     return render(request, 'search.html', {"users": users, "images": images})
   else:
     return render(request, 'search.html')
+
+@login_required
 def add_comment(request,image_id):
     user = request.user
     if request.method == 'POST':
@@ -72,20 +80,6 @@ def add_comment(request,image_id):
             comment.image = image
             comment.save()
             return redirect('home')
-
-    # image=Image.objects.get(id=id)
-    # comments=Comment.objects.filter(image=id).all()
-    # user=request.user
-    # if request.method =='POST':
-    #     form = CommentForm(request.POST)
-        
-    #     if form.is_valid():
-    #         comment = form.save(commit=False)
-    #         comment.user = user
-            
-    #         # comment.image = image
-    #         comment.save()
-    #     return redirect('home')
     else:
         
         form = CommentForm()
@@ -93,13 +87,16 @@ def add_comment(request,image_id):
     
 
 def profile_update(request):
-    user = request.user
-    form = UpdateProfileForm(request.POST, request.FILES)
+    form = UpdateProfileForm()
+    user = request.user.id
+    profile = Profile.objects.get(user_id=user)
     if request.method == 'POST':
+        form = UpdateProfileForm(request.POST, request.FILES)
         if form.is_valid():
-            image = form.save(commit=False)
-            image.user = user
-            image.save()
+            profile.profile_photo = form.cleaned_data.get('profile_photo')
+            profile.username = form.cleaned_data.get('username')
+            profile.bio = form.cleaned_data.get('bio')
+            profile.save()
 
             return redirect('profile')
         else:
@@ -138,14 +135,30 @@ def news_today(request):
             form = NewsLetterForm()
     return render(request, 'all-news/today-news.html', {"letterForm":form})   
 def like_image(request, image_id):
-    image = get_object_or_404(Image,id = image_id)
-    like = Like.objects.filter(image = image ,user = request.user).first()
-    if like is None:
-        like = Like()
-        like.image = image
-        like.user = request.user
-        like.save()
+    user = request.user
+    image=Image.objects.get(id=image_id)
+    current_likes=image.likes
+    print(type(current_likes),'current_likes')
+    liked=Like.objects.filter(user=user,image=image).count()
+    if not liked:
+        liked=Like.objects.create(user=user,image=image)
+        current_likes=current_likes+1
+
     else:
-        like.delete()
+        liked=Like.objects.filter(user=user,image=image).delete()
+        current_likes=current_likes- 1
+    image.likes=current_likes
+    image.save()
+    print(image)
+    return HttpResponseRedirect(reverse('home'))
+    # image = get_object_or_404(Image,id = image_id)
+    # like = Like.objects.filter(image = image ,user = request.user).first()
+    # if like is None:
+    #     like = Like()
+    #     like.image = image
+    #     like.user = request.user
+    #     like.save()
+    # else:
+    #     like.delete()
     return redirect('home')         
 
