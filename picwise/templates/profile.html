@@ -6,7 +6,7 @@
     
         <div class="col-md-2">
             <div class="row" >
-            <img src="{{user.profile.profile_photo.url}}" class="img-thumbnail" alt="..." style="border-radius: 50%; height: 150px;width:150px;">
+            <img src="{{user.profile.profile_photo.url}}" class="img-thumbnail" alt="{{image.name}}" style="border-radius: 50%; height: 150px;width:150px;">
             <h3 class="">{{user.username}}</h3>
             <p>{{user.profile.bio}}</p>
             <button class="btn" style="background-color:yellow ;">Follow</button>
@@ -17,18 +17,23 @@
                 <div class="col-md-3"></div>
                 <div class="col-md-3">
                     <p>Following</p>
-                    <span><strong>{{followers_count.count}}</strong></span>
+                    <span><strong>{{following_count}}</strong></span>
 
                 </div>
-                <div class="col-md-3">followers</div>
-                <div class="col-md-3">likes</div>
+                <div class="col-md-3">
+                    <p>Followers</p>
+                    <span><strong>{{followers_count}}</strong></span>
+
+                </div>
             </div>
            <a href="{% url 'profile_update' %}"><button class="btn" style="background-color:yellow; margin: auto;">Edit profile</button></a> 
 
             <div class="row" style="margin-top:100px ;">
+                {% for image in images %}
                 <div class="col-md-3">
                     <img src="{{ image.image.url }}" alt=""style="width:200px;height:200px;">
                 </div>
+                {% endfor %}
                 
             </div>
         </div>

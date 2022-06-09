@@ -16,7 +16,7 @@ from picwise.models import *
 def home(request):
     images = Image.objects.all()
     profile = Profile.objects.all()
-    return render(request,'index.html',{'images':images})
+    return render(request,'index.html',{'images':images,'profile':profile})
 def all_comments(request, image_id):
     image = Image.objects.get(id=image_id)
     comments = Comment.objects.filter(image=image)
@@ -73,15 +73,12 @@ def logout_user(request):
 def search_results(request):
     query = request.GET.get('query')
     if query:
-        image = Image.objects.filter(
-            Q(name__icontains = query)
-        ).first()
-        params = {'image': image}
+        profiles = Profile.search_profile(query)
+
+        
+        params = {'profiles': profiles,'query': query}
     
         return render(request, 'search.html',params)
-    else:
-        message = "You haven't searched for any profile"
-    return render(request, 'search.html', {'message': message})
 
 
 @login_required

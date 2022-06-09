@@ -51,7 +51,10 @@ class Profile(models.Model):
 
     def save_profile(self):
         self.save()    
-
+    @classmethod
+    def search_profile(cls, query):
+            profs = cls.objects.filter(user__username__icontains=query)
+            return profs
 
 
     
