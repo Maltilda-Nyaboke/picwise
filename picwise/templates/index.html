@@ -2,25 +2,35 @@
 {% load crispy_forms_tags %}
 {% block content %}
 <div class="container">
-        <div class="row">
+        <div class="row" style="margin-top:30px;">
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
                         {% for image in images %}
                         <div class="card mb-3">
+                                <div class="card-header" style="background-color:black ;">
+                                        <p class="text-white"><img src="{{user.profile.profile_photo.url}}" alt="" style="height:50px;width:50px;border-radius:50%;margin-right: 10px;">{{user.username}}<button type="button" class="btn" style="background-color: yellow; float: right"><a href="{%url 'follow' image.user.id%}">Follow</a></button>
+                                        </p>
+                                        
+                                </div>
                                 <div class="card-body">
                                         <h5 class="card-title">{{image.name}}</h5>
                                         <img src="{{ image.image.url }}" class="card-img-top" alt="{{image.name}}">
                                         <p class="card-text">{{image.caption}}</p>
                                         <p class="card-text"><small class="text-muted">{{image.posted}}</small></p>
                                 </div>
-                                <div class="card-footer">
-                                       <p>{{image.comment}}</p>
-                                       <a href="#" class="btn btn-primary">comment</a>
-                                       <a href="#" class="btn btn-primary">Like</a>
-
+                                <div class="card-footer" style="background-color: yellow;">
+                                        <a href="{% url 'comment' image.id %}" style="color: black; padding:10px;"><i class="fa-solid fa-comment-dots"></i></a>
+                                        <a href="{% url 'like' image.id %}" style="color:black; padding:10px;"><i class="fa-solid fa-heart"></i></a>
+                                        <a href="{% url 'comments' image.id %}">view comments</a>
                                 </div>
                         </div>
+
                         {% endfor %}
+                        <div class="com">
+                                {% for comment in image.comments.all %}
+                                {{comment.comment}}
+                                {% endfor %}
+                        </div>
                 </div>
                 <div class="col-md-3"></div>
         </div>

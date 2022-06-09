@@ -1,47 +1,34 @@
-{%extends 'base.html'%}
+{% extends 'base.html' %}
+{% load static %}
 {% block content %}
 <div class="container">
-
-
-    <div class="row">
-        <div class="col-md-4"></div>
-        <div class="col-md-4 search">
-
-
-            {% if users %}
-            <h6 class="text-center text-monospace">
-                Profiles found
-            </h6>
-            {% for user in users %}
-            <div class="flex">
-                <div>
-
-                    <img src="{{user.user.profile.profile_photo.url}}" class="rounded-circle border" alt="img"
-                        width="150" height="300">
-                    <p><b>{{user.profile.first_name}}<br>
-                            {{user.profile.last_name}}<br></b></p>
-                    <p>{{user.profile.bio}}<br></p>
-
-                </div>
-                <div>
-                    <p class="ml-2"><span class="font-weight-bold">{{user.user.username}}</span></p>
-                </div>
-            </div>
-            {% endfor %}
-            {%else%}
-            <p> Profiles found</p>
-            {% endif %}
-
-            {% if images %}
-            <h6 class="text-center text-monospace">
-                posts found
-            </h6>
-
-            {% endif %}
-
-
-        </div>
-        <div class="col-md-4"></div>
-    </div>
+  <div class="row text-center">
+    {% if image%}
+      <h2>Found {{ image|length }} user with searched term '{{message}}'</h2>
+    {% else %}
+      <h2 class="text-center"> No profiles found</h2>
+    {% endif %}
+  </div>
 </div>
+<div class="container">
+  <div class="row">
+    <div class="col-6">
+      {% if profiles %}
+      {% for profile in profiles %}
+      <div class="card">          
+        {% if profile.picture %}
+          <span><img class="rounded-circle" src="{{ profile.picture.url }}" style="width: 6rem; height: 6rem;"></span>
+        {% else %}
+          <span><img class="rounded-circle" src="{% static 'images/noimage.jpg'%}" alt="No Profile" style="width: 4rem; height: 4rem;"></span> 
+        {% endif %}
+        <div class="card-body">
+          <h2>{{ profile.user.username }}</h2>
+          <p>{{ profile.user.email }}</p>
+        </div>
+      </div><br>
+      {% endfor %}
+      </div>
+  </div>
+</div>
+{% endif %}
 {% endblock %}
