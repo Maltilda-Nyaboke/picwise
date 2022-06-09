@@ -44,6 +44,7 @@ db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
+DATABASE_URL='postgresql://mklxltfvaafprz:bd5fe2aa909781a20b79d8cfae297d1846eecae766423253f6eafad6d57e21c9@ec2-52-44-13-158.compute-1.amazonaws.com:5432/d13klmtd0tor1q'
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -58,7 +59,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = "django-insecure-c%xpt!_1&ex9abbhww(!%&fd8wl!&1b)hos@0sot)@k6nno7k9"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -182,3 +183,5 @@ LOGOUT_REDIRECT_URL = '/accounts/register'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+django_heroku.settings(locals())
+
