@@ -8,7 +8,7 @@
                         {% for image in images %}
                         <div class="card mb-3">
                                 <div class="card-header" style="background-color:black ;">
-                                        <p class="text-white"><img src="{{user.profile.profile_photo.url}}" alt="" style="height:50px;width:50px;border-radius:50%;margin-right: 10px;">{{user.username}}<button type="button" class="btn" style="background-color: yellow; float: right"><a href="{%url 'follow' image.user.id%}">Follow</a></button>
+                                        <p class="text-white"><img src="{{user.profile.profile_photo.url}}" alt="" style="height:50px;width:50px;border-radius:50%;margin-right: 10px;">{{user.username}}<button type = "btn" class = 'btn' style="background-color: yellow; float: right"><a href="{%url 'follow' image.user.id%}">Follow</a></button>
                                         </p>
                                         
                                 </div>
