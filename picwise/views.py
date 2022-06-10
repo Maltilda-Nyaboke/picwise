@@ -20,8 +20,8 @@ def home(request):
 def all_comments(request, image_id):
     image = Image.objects.get(id=image_id)
     comments = Comment.objects.filter(image=image)
+    return render(request,'vcomment.html',{'comments':comments,'image':image})
 
-    return render(request,'index.html',{'comments':comments})
 def profile(request):
     user = request.user.pk
     profile = User.objects.all()

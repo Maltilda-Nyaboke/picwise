@@ -4,9 +4,9 @@
 <div class="container">
   <div class="row" style="margin-top:20px;">
     {% if profiles %}
-    <h2>Found {{ profiles|length }} user with searched term '{{query}}'</h2>
+    <h2 text-align="center">Found {{ profiles|length }} user with searched term '{{query}}'</h2>
     {% else %}
-      <h2> Found 0 profiles for the search term {{query}}</h2>
+      <h2 text-align="center"> Found 0 profiles for the search term {{query}}</h2>
     {% endif %}
     {% if profiles %}
     {% for profile in profiles %}
@@ -15,7 +15,6 @@
           <img src="{{user.profile.profile_photo.url}}" class="img-thumbnail" alt="{{image.name}}" style="border-radius: 50%; height: 150px;width:150px;">
           <h3 class="">{{user.username}}</h3>
           <p>{{user.profile.bio}}</p>
-          <button class="btn" style="background-color:yellow ;">Follow</button>
       </div>
       </div>
       <div class="col-md-10">
@@ -30,7 +29,7 @@
                 <span><strong>{{followers_count}}</strong></span>
 
               </div>
-              <div class="col-md-3">likes
+              <div class="col-md-3">
               </div>
           </div>
       </div>
